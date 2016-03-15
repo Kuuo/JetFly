@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jet</title>
+  <style>
+    #jet {
+      /*border: 1px solid;*/
+    }
+  </style>
+</head>
+<body onload="drawJet()" onkeypress="move(event)">
+  <canvas id="jet" width="520" height="350" style="position: relative; top: 10px; left: 10px;"></canvas>
+</body>
+
+<script>
+
+var velocity = 30;
+function move (event) {
+  var cvs = document.getElementById('jet');
+  var curTop  = parseInt(cvs.style.top);
+  var curLeft = parseInt(cvs.style.left);
+
+  var x = event.charCode || event.keyCode;
+  var inctop, incleft;
+  if (x == 119 || x == 87) inctop  = curTop  - velocity;
+  if (x == 115 || x == 83) inctop  = curTop  + velocity;
+  if (x == 97  || x == 65) incleft = curLeft - velocity;
+  if (x == 100 || x == 68) incleft = curLeft + velocity;
+
+  if (inctop  >= 0 && inctop  < window.innerHeight - cvs.height - 10) cvs.style.top  = inctop  + "px";
+  if (incleft >= 0 && incleft < window.innerWidth - cvs.width - 10)   cvs.style.left = incleft + "px";
+}
+
+function drawJet () {
+  var ctx = document.getElementById('jet').getContext('2d');
+  ctx.translate(260, 180);
+  ctx.scale(2.5, 2.5);
+  createflanks(ctx);
+  createRearWing(ctx);
+
+  ctx.strokeStyle = 'rgb(124, 124, 124)';
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  createBody(ctx);
+  createTurbo(ctx);
+}
+
+function createflanks (contex) {
+  contex.moveTo(10, -35);
+  contex.lineTo(15, -30);
+  contex.lineTo(95, -5);
+  contex.lineTo(100, 15);
+  contex.lineTo(95, 15);
+  contex.lineTo(90, 10);
+  contex.lineTo(35, 0);
+  contex.lineTo(10, 0);
+  contex.lineTo(10, 35);
+
+  contex.lineTo(2, 65);
+  contex.lineTo(-2, 65);
+
+  contex.lineTo(-10, 35);
+  contex.lineTo(-10, 0);
+  contex.lineTo(-35, 0);
+  contex.lineTo(-90, 10);
+  contex.lineTo(-95, 15);
+  contex.lineTo(-100, 15);
+  contex.lineTo(-95, -5);
+  contex.lineTo(-15, -30);
+  contex.lineTo(-10, -35);
+}
+
+function createRearWing (contex) {
+  contex.moveTo(7.75, 43.44);
+  contex.lineTo(45, 60);
+  contex.lineTo(45, 65);
+  contex.lineTo(3.24, 60.36);
+
+  contex.moveTo(-7.75, 43.44);
+  contex.lineTo(-45, 60);
+  contex.lineTo(-45, 65);
+  contex.lineTo(-3.24, 60.36);
+}
+
+function createBody (contex) {
+  contex.beginPath();
+
+  contex.moveTo(10, -50);
+  contex.lineTo(10, 15);
+
+  contex.quadraticCurveTo(0, 70, -10, 15);
+  contex.lineTo(-10, -50);
+  contex.quadraticCurveTo(0, -90, 10, -50);
+  contex.closePath();
+
+  contex.fillStyle = 'rgb(204, 204, 204)';
+  contex.fill();
+}
+
+function createTurbo (contex) {
+  contex.fillStyle = 'rgb(221, 221, 221)';
+  contex.fillRect(30, -5, 5, 10);
+  contex.fillRect(45, 0, 5, 10);
+  contex.fillRect(-30, -5, 5, 10);
+  contex.fillRect(-45, 0, 5, 10);
+}
+</script>
+
+</html>
